@@ -1,4 +1,4 @@
-<center><a href="./?pages=Archer&type={ArcherTable}&pageType=Add" class="btn btn-secondary">{L_add}</a></center>
+<center><a href="./?pages=Archer&type={ArcherTable}&pageType=Add" class="btn btn-secondary">{L_add}</a><a href="./?pages=Archer&type={ArcherTable}&pageType=Sort&orderBy=pSort" class="btn btn-secondary">{L_"Сортировать"}</a></center>
 <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
 <thead>
 	<tr>
