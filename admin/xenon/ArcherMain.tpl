@@ -1,4 +1,4 @@
-<center><a href="./?pages=Archer&type={ArcherTable}&pageType=Add" class="btn btn-secondary">{L_add}</a><a href="./?pages=Archer&type={ArcherTable}&pageType=Sort&orderBy=pSort" class="btn btn-secondary">{L_"Сортировать"}</a></center>
+<center><a href="./?pages=Archer&type={ArcherTable}&pageType=Add" class="btn btn-secondary">{L_add}</a>[if {D_DisableSort}!=0]<a href="./?pages=Archer&type={ArcherTable}&pageType=Sort&orderBy={LinkOrderBy}" class="btn btn-secondary">{L_"Сортировать"}</a>[/if {D_DisableSort}!=0]</center>
 <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
 <thead>
 	<tr>
@@ -14,9 +14,9 @@
 [foreach block={ArcherPage}]<tr>
 	{ArcherData}
 	<td>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Show&viewId={{ArcherPage}.id}" class="btn btn-blue">{L_view}</a><br>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Edit&viewId={{ArcherPage}.id}" class="btn btn-turquoise">{L_edit}</a><br>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Delete&viewId={{ArcherPage}.id}" onclick="confirmDelete();" class="btn btn-red">{L_delete}</a>
+		<a href="./?pages=Archer&type={ArcherTable}&pageType=Show&viewId={{ArcherPage}.{ArcherFirst}}" class="btn btn-blue">{L_view}</a><br>
+		<a href="./?pages=Archer&type={ArcherTable}&pageType=Edit&viewId={{ArcherPage}.{ArcherFirst}}" class="btn btn-turquoise">{L_edit}</a><br>
+		<a href="./?pages=Archer&type={ArcherTable}&pageType=Delete&viewId={{ArcherPage}.{ArcherFirst}}" onclick="confirmDelete();" class="btn btn-red">{L_delete}</a>
 	</td>
 </tr>[/foreach]
 </tbody>
