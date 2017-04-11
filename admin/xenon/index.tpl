@@ -27,7 +27,7 @@
 				
 				[if {isUsers}==1]<a href="{C_default_http_host}admincp.php/?pages=Users" class="col-sm-3">
 					
-					<div class="xe-widget xe-counter xe-counter-blue" data-count=".num" data-from="1" data-to="{users}" data-duration="3" data-easing="false">
+					<div class="xe-widget xe-counter xe-counter-blue" data-count=".num" data-from="0" data-to="{users}" data-duration="3" data-easing="false">
 						<div class="xe-icon">
 							<i class="linecons-user"></i>
 						</div>
@@ -41,7 +41,7 @@
 				
 				<span id="cache" class="col-sm-3">
 					
-					<div class="xe-widget xe-counter xe-counter-purple" data-count=".num" data-from="1" data-to="{Cache}" data-duration="3" data-easing="false">
+					<div class="xe-widget xe-counter xe-counter-purple" data-count=".num" data-from="0" data-to="{CacheSize}" data-suffix="{CacheSizeS}" data-duration="3" data-easing="false">
 						<div class="xe-icon">
 							<i class="linecons-inbox"></i>
 						</div>
@@ -55,7 +55,7 @@
 				
 				<span id="cachephp" class="col-sm-3">
 					
-					<div class="xe-widget xe-counter xe-counter-purple" data-count=".num" data-from="1" data-to="{CachePHP}" data-duration="3" data-easing="false">
+					<div class="xe-widget xe-counter xe-counter-purple" data-count=".num" data-from="0" data-to="{CachePHPSize}" data-suffix="{CachePHPSizeS}" data-duration="3" data-easing="false">
 						<div class="xe-icon">
 							<i class="linecons-inbox"></i>
 						</div>
@@ -66,6 +66,19 @@
 					</div>
 				
 				</span>
+				
+				[if {is_messagesAdmin}==1]
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-title">{L_"Рекомендации от"}&nbsp;<b>Cardinal Engine</b></div>
+						<div class="panel-body">
+							<div class="scrollable" data-max-height="200">
+								{messagesAdmin}
+							</div>
+						</div>
+					</div>
+				</div>
+				[/if]
 				
 				[if {is_new}==1]
 				<div class="col-sm-12">

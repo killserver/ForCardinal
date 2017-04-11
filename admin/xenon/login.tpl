@@ -73,7 +73,8 @@
 							{
 								show_loading_bar(70); // Fill progress bar to 70% (just a given value)
 								
-								var opts = {
+								var $passwd = $(form).find('#passwd'),
+								opts = {
 									"closeButton": true,
 									"debug": false,
 									"positionClass": "toast-top-full-width",
