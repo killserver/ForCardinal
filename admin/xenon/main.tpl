@@ -507,29 +507,41 @@
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/tinymce/tinymce.min.js?{S_time}"></script>
 	{js_list}
 	<script>
-	$(document).ready(function(){
-		if(typeof(editorTextarea)!="object") {
-			var editorTextarea = {
-				selector: 'textarea',
-				height: 500,
-				language : selectLang,
-				plugins: [
-					"advlist autolink lists link image charmap print preview anchor",
-					"searchreplace visualblocks code fullscreen",
-					"insertdatetime media table contextmenu paste imagetools responsivefilemanager"
-				],
-				toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image responsivefilemanager",
-				content_css: [],
-				valid_elements : "*[*]",
-				forced_root_block : '',
-				image_advtab: true, 
-				external_filemanager_path: default_admin_link+"assets/xenon/js/tinymce/filemanager/",
-				filemanager_title: "{L_"Загрузка файлов"}", 
-				external_plugins: { "filemanager" : default_admin_link+"assets/xenon/js/tinymce/filemanager/plugin.min.js"}
+	if(typeof(disableAllEditors)=="undefined") {
+		$(document).ready(function(){
+			if(typeof(editorTextarea)!="object") {
+				var editorTextarea = {
+					selector: 'textarea',
+					height: 500,
+					language : selectLang,
+					plugins: [
+						"advlist autolink lists link image charmap print preview anchor",
+						"searchreplace visualblocks code fullscreen",
+						"insertdatetime media table contextmenu paste imagetools responsivefilemanager localautosave"
+					],
+					toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image responsivefilemanager localautosave",
+					content_css: [],
+					valid_elements : "*[*]",
+					forced_root_block : '',
+					image_advtab: true, 
+					external_filemanager_path: default_admin_link+"assets/xenon/js/tinymce/filemanager/",
+					filemanager_title: "{L_"Загрузка файлов"}", 
+					external_plugins: { "filemanager" : default_admin_link+"assets/xenon/js/tinymce/filemanager/plugin.min.js"},
+					readonly: (typeof(readOnlyEditor)=="undefined" ? 0 : 1),
+					las_seconds: 15,
+					las_nVersions: 15,
+					las_keyName: "LocalAutoSave",
+					las_callback: function() {
+						var content = this.content; //content saved
+						var time = this.time; //time on save action
+						console.log(content);
+						console.log(time);
+					}
+				}
 			}
-		}
-		tinymce.init(editorTextarea);
-	});
+			tinymce.init(editorTextarea);
+		});
+	}
 	</script>
 
 	<!-- JavaScripts initializations and stuff -->

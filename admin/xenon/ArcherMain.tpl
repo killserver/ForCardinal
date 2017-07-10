@@ -14,9 +14,9 @@
 [foreach block={ArcherPage}]<tr>
 	{ArcherData}
 	<td>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Show&viewId={{ArcherPage}.{ArcherFirst}}" class="btn btn-blue">{L_view}</a><br>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Edit&viewId={{ArcherPage}.{ArcherFirst}}" class="btn btn-turquoise">{L_edit}</a><br>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Delete&viewId={{ArcherPage}.{ArcherFirst}}" onclick="confirmDelete();" class="btn btn-red">{L_delete}</a>
+		<a href="./?pages=Archer&type={ArcherTable}&pageType=Show&viewId={{ArcherPage}.{ArcherFirst}}" class="btn btn-secondary btn-block">{L_view}</a>
+		<a href="./?pages=Archer&type={ArcherTable}&pageType=Edit&viewId={{ArcherPage}.{ArcherFirst}}" class="btn btn-edit btn-block">{L_edit}</a>
+		<a href="./?pages=Archer&type={ArcherTable}&pageType=Delete&viewId={{ArcherPage}.{ArcherFirst}}" onclick="confirmDelete();" class="btn btn-red btn-block">{L_delete}</a>
 	</td>
 </tr>[/foreach]
 </tbody>
@@ -36,7 +36,7 @@ jQuery(document).ready(function() {
 	});
 });
 function confirmDelete() {
-	if (confirm("Вы подтверждаете удаление?(Данную операцию невозможно будет обратить)")) {
+	if (confirm("{L_"Вы подтверждаете удаление?(Данную операцию невозможно будет обратить)"}")) {
 		return true;
 	} else {
 		return false;
