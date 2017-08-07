@@ -364,12 +364,12 @@
 						</a>
 						
 						<ul class="dropdown-menu user-profile-menu list-unstyled">
-							<li>
+							[if {UL_settings}==true]<li>
 								<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/?pages=Settings">
 									<i class="fa-wrench"></i>
 									{L_"Settings"}
 								</a>
-							</li>
+							</li>[/if {UL_settings}==true]
 							<li class="last">
 								<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/?pages=Login&out">
 									<i class="fa-lock"></i>
@@ -502,10 +502,12 @@
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/joinable.js?2"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-api.js?1"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-toggles.js?1"></script>
-	<!--script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/ckeditor/ckeditor.js?1"></script>
-	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/ckeditor/adapters/jquery.js"></script-->
+	<!--script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/ckeditor/ckeditor.js?1"></script-->
+	<!--script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/ckeditor/adapters/jquery.js"></script-->
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/tinymce/tinymce.min.js?{S_time}"></script>
+
 	{js_list}
+	
 	<script>
 	if(typeof(disableAllEditors)=="undefined") {
 		$(document).ready(function(){
@@ -536,7 +538,19 @@
 						var time = this.time; //time on save action
 						console.log(content);
 						console.log(time);
-					}
+					},
+					cleanup: false,
+					verify_html: false,
+					cleanup_on_startup: false,
+					validate_children: false,
+					remove_redundant_brs: false,
+					remove_linebreaks: false,
+					force_p_newlines: false,
+					force_br_newlines: false,
+					valid_children: "+li[p|img|br|strong],+ol[p|img|br|strong],+ul[p|img|br|strong]",
+					validate: false,
+					fix_table_elements: false,
+					fix_list_elements: false,
 				}
 			}
 			tinymce.init(editorTextarea);
