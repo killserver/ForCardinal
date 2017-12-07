@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="[if {RP[lang]}==""]{C_lang}[else {RP[lang]}==""]{RP[lang]}[/if {RP[lang]}==""]">
+<html lang="{langPanel}">
 <head>
 	<meta charset="{C_charset}">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="description" content="Cardinal Admin Panel" />
+	<meta name="description" content="Cardinal Engine Admin Panel" />
 	<meta name="author" content="KilleR" />
 	<!--base href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/" /-->
 	
-	<title>Xenon - Compose Message</title>
+	<title>Admin Panel for {L_sitename}</title>
 
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/fonts/linecons/css/linecons.css?1">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/fonts/fontawesome/css/font-awesome.min.css?1">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/bootstrap.css?1">
@@ -27,7 +27,7 @@
 		var default_link = "{C_default_http_host}";
 		var default_admin_link = "{C_default_http_host}{D_ADMINCP_DIRECTORY}/";
 		var default_localadmin_link = "{C_default_http_local}{D_ADMINCP_DIRECTORY}/";
-		var selectLang = "[if {RP[lang]}==""]{C_lang}[else {RP[lang]}==""]{RP[lang]}[/if {RP[lang]}==""]";
+		var selectLang = "{langPanel}";
 	</script>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -415,6 +415,8 @@
 						
 					</div>
 					
+					<div class="pull-right col-sm-1 text-muted">rev. {D_INTVERSION}</div>
+					
 				</div>
 				
 			</footer>
@@ -477,36 +479,33 @@
 
 	<!-- Import flash -->
 	<script type="text/javascript">
-		var smiles = [[foreach block=smiles]'smile-{smile}.gif',[/foreach]];
-		var descr_smile = [[foreach block=smiles]':{smile}:',[/foreach]];
-			jQuery(document).ready(function($) {
-				$("[data-skin]").each(function(i, el)
-				{
-					var $el = $(el),
-						skin = $el.data('skin');
-					
-					$el.find('a').attr('data-set-skin', skin).attr('href', '#setSkin:' + skin);
-				});
-				$('[data-set-skin]').on('click', function(ev)
-				{
-					ev.preventDefault();
-					
-					var skin = $(this).data('set-skin'),
-						skin_name = skin ? (' skin-'+skin) : '';
-					
-					var body_classes = public_vars.$body.attr('class').replace(/skin-[a-z]+/i, '');
-					
-					public_vars.$body.attr('class', body_classes).addClass(skin_name);
-					
-					Cookies.set('current-skin', skin);
-				});
-				jQuery('body').attr('class', jQuery('body').attr('class').replace(/skin-[a-z]+/i, '')).addClass(Cookies.get('current-skin') ? (' skin-'+Cookies.get('current-skin')) : '');
+		jQuery(document).ready(function($) {
+			$("[data-skin]").each(function(i, el)
+			{
+				var $el = $(el),
+					skin = $el.data('skin');
+				
+				$el.find('a').attr('data-set-skin', skin).attr('href', '#setSkin:' + skin);
 			});
+			$('[data-set-skin]').on('click', function(ev)
+			{
+				ev.preventDefault();
+				
+				var skin = $(this).data('set-skin'),
+					skin_name = skin ? (' skin-'+skin) : '';
+				
+				var body_classes = public_vars.$body.attr('class').replace(/skin-[a-z]+/i, '');
+				
+				public_vars.$body.attr('class', body_classes).addClass(skin_name);
+				
+				Cookies.set('current-skin', skin);
+			});
+			jQuery('body').attr('class', jQuery('body').attr('class').replace(/skin-[a-z]+/i, '')).addClass(Cookies.get('current-skin') ? (' skin-'+Cookies.get('current-skin')) : '');
+		});
 	</script>
 	
 	<!-- Imported styles on this page -->
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/toastr/toastr.min.css?1">
-	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/dropzone/css/dropzone.css">
 	{css_list}
 	<!-- Bottom Scripts -->
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/bootstrap.min.js?1"></script>
@@ -515,8 +514,6 @@
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/joinable.js?2"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-api.js?1"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-toggles.js?1"></script>
-	<!--script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/ckeditor/ckeditor.js?1"></script-->
-	<!--script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/ckeditor/adapters/jquery.js"></script-->
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/tinymce/tinymce.min.js?{S_time}"></script>
 
 	{js_list}
@@ -574,6 +571,5 @@
 	<!-- JavaScripts initializations and stuff -->
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-custom.js?1"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/toastr/toastr.min.js?1"></script>
-	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/dropzone/dropzone.min.js"></script>
 </body>
 </html>

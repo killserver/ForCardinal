@@ -1,4 +1,4 @@
-<center><a href="./?pages=ATextAdmin&mod=Add" class="btn btn-secondary">{L_add}</a></center>
+<center><a href="./?pages=DocsAdmin&mod=Add" class="btn btn-secondary">{L_add}</a></center>
 <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
 <thead>
 	<tr>
@@ -15,12 +15,12 @@
 	</tr>
 </tfoot>
 <tbody>
-[foreach block=aText]<tr>
-	<td>{aText.aId}</td>
-	<td>{aText.page}</td>
+[foreach block=Docs]<tr>
+	<td>{Docs.aId}</td>
+	<td>{Docs.page}</td>
 	<td>
-		<a href="./?pages=ATextAdmin&mod=Edit&viewId={aText.aId}" class="btn btn-turquoise">{L_edit}</a><br>
-		<a href="./?pages=ATextAdmin&mod=Delete&viewId={aText.aId}" onclick="return confirmDelete();" class="btn btn-red">{L_delete}</a>
+		<a href="./?pages=DocsAdmin&mod=Edit&viewId={Docs.aId}" class="btn btn-turquoise">{L_edit}</a><br>
+		<a href="./?pages=DocsAdmin&mod=Delete&viewId={Docs.aId}" onclick="confirmDelete();" class="btn btn-red">{L_delete}</a>
 	</td>
 </tr>[/foreach]
 </tbody>

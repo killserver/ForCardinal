@@ -1,32 +1,41 @@
-<center><a href="./?pages=ATextAdmin&mod=Add" class="btn btn-secondary">{L_add}</a></center>
+<center><a href="./?pages=UserLevels&mod=Add" class="btn btn-secondary">{L_add}</a></center>
 <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
 <thead>
 	<tr>
 		<th>ID</th>
-		<th>Page</th>
+		<th>Название уровня</th>
+		<th>Доступов</th>
 		<th>{L_options}</th>
 	</tr>
 </thead>
 <tfoot>
 	<tr>
 		<th>ID</th>
-		<th>Page</th>
+		<th>Доступов</th>
 		<th>{L_options}</th>
 	</tr>
 </tfoot>
 <tbody>
-[foreach block=aText]<tr>
-	<td>{aText.aId}</td>
-	<td>{aText.page}</td>
-	<td>
-		<a href="./?pages=ATextAdmin&mod=Edit&viewId={aText.aId}" class="btn btn-turquoise">{L_edit}</a><br>
-		<a href="./?pages=ATextAdmin&mod=Delete&viewId={aText.aId}" onclick="return confirmDelete();" class="btn btn-red">{L_delete}</a>
+[foreach block=userlevelsList]<tr>
+	<td class="col-md-1">{userlevelsList.id}</td>
+	<td class="col-md-5">{userlevelsList.name}<br><small style="font-size:75%;">({userlevelsList.orName})</small></td>
+	<td class="col-md-1">{userlevelsList.counts}</td>
+	<td class="col-md-2">
+		<a href="./?pages=UserLevels&mod=Edit&id={userlevelsList.id}" class="btn btn-edit btn-block btn-sm">{L_"Редактировать"}</a>
+		<a href="./?pages=UserLevels&mod=Delete" onclick="return confirmClear(this);" class="btn btn-red btn-block btn-sm" disabled="disabled">{L_"Сбросить"}</a>
 	</td>
 </tr>[/foreach]
 </tbody>
 </table>
-<script type="text/javascript">
-jQuery(document).ready(function() {
+<script>
+function confirmClear() {
+	if (confirm("{L_"Вы подтверждаете сброс?(Данную операцию невозможно будет обратить)"}")) {
+		return true;
+	} else {
+		return false;
+	}
+}
+jQuery(document).ready(function($){	
 	jQuery("#example-1").dataTable({
 		language: {
 			"processing": "{L_"Подождите"}...",
@@ -61,11 +70,4 @@ jQuery(document).ready(function() {
 		}]
 	});
 });
-function confirmDelete() {
-	if (confirm("{L_"Вы подтверждаете удаление?(Данную операцию невозможно будет обратить)"}")) {
-		return true;
-	} else {
-		return false;
-	}
-}
 </script>
