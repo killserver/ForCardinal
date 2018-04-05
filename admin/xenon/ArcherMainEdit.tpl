@@ -1,4 +1,4 @@
-<center><a href="./?pages=Archer&type={ArcherTable}&pageType=Add{addition}" class="btn btn-secondary">{L_add}</a>[if {D_DisableSort}!=0]<a href="./?pages=Archer&type={ArcherTable}&pageType=Sort&orderBy={LinkOrderBy}{addition}" class="btn btn-secondary">{L_"Сортировать"}</a>[/if {D_DisableSort}!=0]</center>
+<center><a href="./?pages=Archer&type={ArcherTable}&pageType=Add{addition}" class="btn btn-secondary quickAdd">{L_add}</a>[if {D_DisableSort}!=0]<a href="./?pages=Archer&type={ArcherTable}&pageType=Sort&orderBy={LinkOrderBy}{addition}" class="btn btn-secondary">{L_"Сортировать"}</a>[/if {D_DisableSort}!=0]</center>
 <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
 <thead>
 	<tr>
@@ -15,8 +15,6 @@
 	{ArcherData}
 	<td>
 		<a href="./?pages=Archer&type={ArcherTable}&pageType=Edit&viewId={{ArcherPage}.{ArcherFirst}}{addition}" class="btn btn-purple btn-block quickView">{L_quickEdit}</a>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Show&viewId={{ArcherPage}.{ArcherFirst}}{addition}" class="btn btn-secondary btn-block">{L_view}</a>
-		<a href="./?pages=Archer&type={ArcherTable}&pageType=Edit&viewId={{ArcherPage}.{ArcherFirst}}{addition}" class="btn btn-edit btn-block">{L_edit}</a>
 		<a href="./?pages=Archer&type={ArcherTable}&pageType=Delete&viewId={{ArcherPage}.{ArcherFirst}}{addition}" onclick="return confirmDelete();" class="btn btn-red btn-block">{L_delete}</a>
 	</td>
 </tr>[/foreach]
@@ -73,17 +71,23 @@ jQuery(document).ready(function() {
 			dTable.yadcf([{column_number: getId}]);
 		}
 	}
-	jQuery(".quickView").click(function() {
-		jQuery("#title_video").html("Быстрое редактирование");
+	jQuery(".quickAdd").click(function() {
+		jQuery("#title_video").html("{L_"Быстрое добавление"}");
 		jQuery.post(jQuery(this).attr("href"), function(data) {
-			jQuery("#content_video").css({"overflow": "auto", "overflow-x": "hidden", "padding": "20px 50px"}).html(data);
-			jQuery('.timepicker').timepicker();
-			jQuery('.datepicker').datepicker();
+			jQuery("#content_video").css({"overflow": "auto", "overflow-x": "hidden", "padding": "20px 50px 20px 20px"}).html(data);
 			jQuery("#modal-3 .modal-dialog").css("width", "60%");
 			jQuery("#modal-3 .modal-header .close:not(#closeIco)").remove();
 			jQuery('#modal-3').modal('show');
+			jQuery('.timepicker').each(function(i, elem) {
+				jQuery(elem).timepicker(jQuery(elem).data());
+			});
+			jQuery('.datepicker').each(function(i, elem) {
+				jQuery(elem).datepicker(jQuery(elem).data());
+			});
 			jQuery("body .removeTempStyle").remove();
 			jQuery("body").append("<style class='removeTempStyle'>.bootstrap-timepicker-widget.dropdown-menu{z-index:10000;}</style>");
+			tinymce.remove(editorTextarea.selector);
+			tinymce.init(editorTextarea);
 			jQuery("#modal-3 .modal-footer .btn-savePage").remove();
 			jQuery("#modal-3 .modal-content").addClass("form-horizontal");
 			jQuery("#modal-3 .modal-content").attr("action", linkForSubmit);
@@ -91,17 +95,19 @@ jQuery(document).ready(function() {
 			jQuery("#modal-3 .modal-content").attr("role", "form");
 			jQuery("#modal-3 .modal-content").attr("enctype", "multipart/form-data");
 			jQuery("#modal-3 .modal-footer").prepend('<button class="btn btn-savePage btn-icon btn-icon-standalone btn-icon-standalone-right btn-sm pull-left"><i class="fa-save"></i><span>{L_save}</span></button>');
-			jQuery("#modal-3 .modal-content").submit(function(event) {
+			jQuery("#modal-3 .modal-content").unbind("submit").submit(function(event) {
 				var forSend = new FormData();
 				jQuery("#modal-3 .modal-content .modal-body :input").each(function(i, elem) {
 					if(jQuery(elem).attr("type")=="file") {
 						if(elem.files.length>1) {
 							for(var s=0;s<elem.files.length;s++) {
-								forSend.append(jQuery(elem).attr("name"), elem.files[s]);
-					        }
-					    } else if(elem.files.length==1) {
+								if(typeof(elem.files[s]) !== "undefined") {
+									forSend.append(jQuery(elem).attr("name"), elem.files[s]);
+								}
+							}
+						} else if(elem.files.length==1 && typeof(elem.files[0]) !== "undefined") {
 							forSend.append(jQuery(elem).attr("name"), elem.files[0]);
-					    }
+						}
 					} else {
 						forSend.append(jQuery(elem).attr("name"), jQuery(elem).val());
 					}
@@ -131,6 +137,109 @@ jQuery(document).ready(function() {
 		});
 		return false;
 	});
+	jQuery(".quickView").click(function() {
+		jQuery("#title_video").html("{L_"Быстрое редактирование"}");
+		jQuery.post(jQuery(this).attr("href"), function(data) {
+			jQuery("#content_video").css({"overflow": "auto", "overflow-x": "hidden", "padding": "20px 50px 20px 20px"}).html(data);
+			jQuery("#modal-3 .modal-dialog").css("width", "60%");
+			jQuery("#modal-3 .modal-header .close:not(#closeIco)").remove();
+			jQuery('#modal-3').modal('show');
+			jQuery('.timepicker').each(function(i, elem) {
+				jQuery(elem).timepicker(jQuery(elem).data());
+			});
+			jQuery('.datepicker').each(function(i, elem) {
+				jQuery(elem).datepicker(jQuery(elem).data());
+			});
+			jQuery("body .removeTempStyle").remove();
+			jQuery("body").append("<style class='removeTempStyle'>.bootstrap-timepicker-widget.dropdown-menu{z-index:10000;}</style>");
+			tinymce.remove(editorTextarea.selector);
+			tinymce.init(editorTextarea);
+			jQuery("#modal-3 .modal-footer .btn-savePage").remove();
+			jQuery("#modal-3 .modal-content").addClass("form-horizontal");
+			jQuery("#modal-3 .modal-content").attr("action", linkForSubmit);
+			jQuery("#modal-3 .modal-content").attr("method", "post");
+			jQuery("#modal-3 .modal-content").attr("role", "form");
+			jQuery("#modal-3 .modal-content").attr("enctype", "multipart/form-data");
+			jQuery("#modal-3 .modal-footer").prepend('<button class="btn btn-savePage btn-icon btn-icon-standalone btn-icon-standalone-right btn-sm pull-left"><i class="fa-save"></i><span>{L_save}</span></button>');
+			jQuery("#modal-3 .modal-content").unbind("submit").submit(function(event) {
+				var forSend = new FormData();
+				jQuery("#modal-3 .modal-content .modal-body :input").each(function(i, elem) {
+					if(jQuery(elem).attr("type")=="file") {
+						if(elem.files.length>1) {
+							for(var s=0;s<elem.files.length;s++) {
+								if(typeof(elem.files[s]) !== "undefined") {
+									forSend.append(jQuery(elem).attr("name"), elem.files[s]);
+								}
+							}
+						} else if(elem.files.length==1 && typeof(elem.files[0]) !== "undefined") {
+							forSend.append(jQuery(elem).attr("name"), elem.files[0]);
+						}
+					} else {
+						forSend.append(jQuery(elem).attr("name"), jQuery(elem).val());
+					}
+				});
+				jQuery.ajax({
+					url: linkForSubmit+"&jajax=true",
+					data: forSend,
+					processData: false,
+					contentType: false,
+					cache: false,
+					type: 'POST',
+					success: function(data) {
+						jQuery('#modal-3').modal('hide');
+						toastr.success("{L_"Данные обновлены"}");
+					},
+					error: function(data, textStatus, errorThrown) {
+						if(data.status==302) {
+							jQuery('#modal-3').modal('hide');
+							toastr.success("{L_"Данные обновлены"}");
+						} else {
+							toastr.error("{L_"Данные не обновлены"}");
+						}
+					}
+				});
+				return false;
+			});
+		});
+		return false;
+	});
+	if(typeof($.fn.editableform)!=="undefined") {
+		$.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-close"></i></button>';
+		$('.quickEdit').editable({
+			url: '{C_default_http_local}{D_ADMINCP_DIRECTORY}/?pages=Archer&type={ArcherTable}&pageType=QuickEdit&Save=true',
+			validate: function(value) {
+				if($.trim(value) == '') {
+					return '{L_"Данное поле не может быть пустым"}';
+				}
+			}
+		});
+	}
+	var arrToSave = {};
+	var linkForAutoSave = encodeURIComponent(window.location.href.split(default_admin_link)[1])+"&v=1";
+	if(localStorage.getItem(linkForAutoSave)===null) {
+		$("[aria-controls='example-1'],.yadcf-filter").each(function(i, elem) {
+			if(elem.nodeName!=="TH"&&elem.nodeName!=="LI") {
+				arrToSave[elem.nodeName.toLowerCase()+"[aria-controls='"+$(elem).attr("aria-controls")+"']"] = elem.value;
+			}
+		});
+		localStorage.setItem(linkForAutoSave, JSON.stringify(arrToSave));
+		Object.keys(arrToSave).forEach(function(k) {
+			$(k).bind("change input", function() {
+				arrToSave[k] = $(this).val();
+				localStorage.setItem(linkForAutoSave, JSON.stringify(arrToSave));
+			});
+		});
+	} else {
+		var strForAutoSave = localStorage.getItem(linkForAutoSave);
+		arrToSave = JSON.parse(strForAutoSave);
+		Object.keys(arrToSave).forEach(function(k) {
+			$(k).val(arrToSave[k]).change().keyup();
+			$(k).bind("change input", function() {
+				arrToSave[k] = $(this).val();
+				localStorage.setItem(linkForAutoSave, JSON.stringify(arrToSave));
+			});
+		});
+	}
 });
 function confirmDelete() {
 	if (confirm("{L_"Вы подтверждаете удаление?(Данную операцию невозможно будет обратить)"}")) {

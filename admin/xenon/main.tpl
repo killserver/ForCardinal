@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/fonts/linecons/css/linecons.css?1">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/fonts/fontawesome/css/font-awesome.min.css?1">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/bootstrap.css?1">
-	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/xenon-core.css?1">
+	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/xenon-core.css?3">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/xenon-forms.css?1">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/xenon-components.css?10">
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/xenon-skins.css?1">
@@ -224,11 +224,11 @@
 					
 					<!-- logo -->
 					<div class="logo">
-						<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/?pages=main" class="logo-expanded">
+						<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/{C_mainPageAdmin}" class="logo-expanded">
 							<img src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/{C_logoAdminMain}" width="80" alt="" />
 						</a>
 						
-						<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/?pages=main" class="logo-collapsed">
+						<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/{C_mainPageAdmin}" class="logo-collapsed">
 							<img src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/{C_logoAdminMobile}" width="40" alt="" />
 						</a>
 					</div>
@@ -257,8 +257,8 @@
 				<ul id="main-menu" class="main-menu">
 					<!-- add class "multiple-expanded" to allow multiple submenus to open -->
 					<!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-						<li>
-							<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/?pages=main">
+						<li[if {C_deactiveMainMenu}==1] style="display:none;"[/if {C_deactiveMainMenu}==1]>
+							<a href="{C_default_http_host}{D_ADMINCP_DIRECTORY}/{C_mainPageAdmin}">
 								<i class="linecons-cog"></i>
 								<span class="title">{L_"Main admin"}</span>
 							</a>
@@ -352,7 +352,7 @@
 					
 				</ul>
 				
-				<center style="display:inline-block;margin:10px auto;text-align:center;width:50%;font-size:30px;">{L_"Version"}: {D_VERSION}</center>
+				<div class="versionCardinal">{L_"Version"}: {D_VERSION}</div>
 				
 				<!-- Right links for user info navbar -->
 				<ul class="user-info-menu right-links list-inline list-unstyled">
@@ -382,6 +382,8 @@
 					</li>
 					
 				</ul>
+
+				<span id="doc_time"></span>
 				
 			</nav>
 			<div class="page-title">
@@ -427,23 +429,18 @@
 	
 	
 	<div class="modal fade custom-width" id="modal-3" data-backdrop="static">
-		<div class="modal-dialog" style="width:96%;height:90%;">
-			<div class="modal-content" style="height:100%;">
-				
+		<div class="modal-dialog" style="width:95%;height:90%;">
+			<form class="modal-content" style="height:100%;display:block;">
 				<div class="modal-header">
-								<button type="button" class="close" onclick="show_hide(this);return false">
-									<span class="collapse-icon">-</span>
-								</button>
+					<button type="button" class="close hide" onclick="show_hide(this);return false"><span class="collapse-icon">-</span></button>
 					<button type="button" class="close" id="closeIco" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" id="title_video"></h4>
 				</div>
-				
 				<div class="modal-body" id="content_video" style="height:85%;"></div>
-				
-				<div class="modal-footer" style="position:absolute;right:0px;padding:30px;bottom:0px;margin-bottom:-10px;">
-					<button type="button" class="btn btn-white" id="close" data-dismiss="modal">Close</button>
+				<div class="modal-footer" style="position:absolute;left:0px;width:100%;padding:30px;bottom:0px;margin-bottom:-10px;">
+					<button type="button" class="btn btn-white pull-right" id="close" data-dismiss="modal">Close</button>
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 	<div id="modalView" class="btn btn-purple btn-lg hidden" style="bottom:0px;left:0px;position:fixed;background:#fff;color:#000;z-index:100;" onclick="shows();return false;">View</div>
@@ -506,6 +503,7 @@
 	
 	<!-- Imported styles on this page -->
 	<link rel="stylesheet" href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/toastr/toastr.min.css?1">
+	<link href="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/css/x-editable/x-editable.min.css" rel="stylesheet">
 	{css_list}
 	<!-- Bottom Scripts -->
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/bootstrap.min.js?1"></script>
@@ -514,20 +512,23 @@
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/joinable.js?2"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-api.js?1"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-toggles.js?1"></script>
-	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/tinymce/tinymce.min.js?{S_time}"></script>
+	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/xenon-widgets.js?1"></script>
+	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/tinymce/tinymce.min.js?{S_time}"></script>
 
 	
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/datepicker/bootstrap-datepicker.js"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/timepicker/bootstrap-timepicker.min.js"></script>
 	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/colorpicker/bootstrap-colorpicker.min.js"></script>
+	<script src="{C_default_http_local}{D_ADMINCP_DIRECTORY}/assets/xenon/js/x-editable/x-editable.min.js"></script>
 
 	{js_list}
 	
 	<script>
-	if(typeof(disableAllEditors)=="undefined") {
+	var editorTextarea;
+	if(typeof(disableAllEditors)==="undefined") {
 		$(document).ready(function(){
-			if(typeof(editorTextarea)!="object") {
-				var editorTextarea = {
+			if(typeof(editorTextarea)!=="object") {
+				editorTextarea = {
 					selector: 'textarea',
 					height: 500,
 					language : selectLang,
@@ -541,9 +542,9 @@
 					valid_elements : "*[*]",
 					forced_root_block : '',
 					image_advtab: true, 
-					external_filemanager_path: default_admin_link+"assets/xenon/js/tinymce/filemanager/",
+					external_filemanager_path: default_admin_link+"assets/tinymce/filemanager/",
 					filemanager_title: "{L_"Загрузка файлов"}", 
-					external_plugins: { "filemanager" : default_admin_link+"assets/xenon/js/tinymce/filemanager/plugin.min.js"},
+					external_plugins: { "filemanager" : default_admin_link+"assets/tinymce/filemanager/plugin.min.js"},
 					readonly: (typeof(readOnlyEditor)=="undefined" ? 0 : 1),
 					las_seconds: 15,
 					las_nVersions: 15,
